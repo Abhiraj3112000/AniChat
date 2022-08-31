@@ -94,12 +94,14 @@ class _ChatScreenState extends State<ChatScreen> {
                   TextButton(
                     onPressed: () {
                       messageTextController.clear();
-                      _fireStore.collection('messages').add(
-                        {
-                          'sender': loggedInUser.email,
-                          'text': message,
-                        },
-                      );
+                      _fireStore
+                          .collection('messages')
+                          .doc(
+                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
+                          .set({
+                        'sender': loggedInUser.email,
+                        'text': message,
+                      });
                     },
                     child: const Text(
                       'Send',
@@ -132,6 +134,7 @@ class MessagesStream extends StatelessWidget {
             );
           }
           final messages = snapshot.data!.docs.reversed;
+
           List<MessageBubble> messageWidgets = [];
           for (var message in messages) {
             final messageText = (message.data() as dynamic)['text'];
