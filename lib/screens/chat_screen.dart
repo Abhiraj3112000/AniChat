@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final _fireStore = FirebaseFirestore.instance;
 late User loggedInUser;
+const String emoji = '__jyh23__flash_27hyg___emo__328jhg__';
 
 class ChatScreen extends StatefulWidget {
   static const String id = 'chat_screen';
@@ -100,6 +101,27 @@ class _ChatScreenState extends State<ChatScreen> {
                               "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
                           .set({
                         'sender': loggedInUser.email,
+                        'text': emoji,
+                      });
+
+                      // print("EMOJI");
+                    },
+                    child: Image.asset(
+                      'images/logo.png',
+                      width: 24.0,
+                      height: 24.0,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      messageTextController.clear();
+                      _fireStore
+                          .collection('messages')
+                          .doc(
+                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
+                          .set({
+                        'sender': loggedInUser.email,
                         'text': message,
                       });
                     },
@@ -180,37 +202,44 @@ class MessageBubble extends StatelessWidget {
                   fontSize: 12.0,
                   color: Colors.white,
                 )),
-            Material(
-              borderRadius: isMe == true
-                  ? const BorderRadius.only(
-                      topLeft: Radius.circular(30.0),
-                      bottomRight: Radius.circular(30.0),
-                      bottomLeft: Radius.circular(30.0),
-                    )
-                  : const BorderRadius.only(
-                      topRight: Radius.circular(30.0),
-                      bottomRight: Radius.circular(30.0),
-                      bottomLeft: Radius.circular(30.0),
+            text == emoji
+                ? Image.asset(
+                    'images/logo.png',
+                    width: 100.0,
+                    height: 200.0,
+                    fit: BoxFit.cover,
+                  )
+                : Material(
+                    borderRadius: isMe == true
+                        ? const BorderRadius.only(
+                            topLeft: Radius.circular(30.0),
+                            bottomRight: Radius.circular(30.0),
+                            bottomLeft: Radius.circular(30.0),
+                          )
+                        : const BorderRadius.only(
+                            topRight: Radius.circular(30.0),
+                            bottomRight: Radius.circular(30.0),
+                            bottomLeft: Radius.circular(30.0),
+                          ),
+                    elevation: 5.0,
+                    color: isMe == true ? Colors.lightBlueAccent : Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      child: Text(
+                        '$text',
+                        style: isMe == true
+                            ? const TextStyle(
+                                color: Colors.white,
+                                fontSize: 15.0,
+                              )
+                            : const TextStyle(
+                                color: Colors.black54,
+                                fontSize: 15.0,
+                              ),
+                      ),
                     ),
-              elevation: 5.0,
-              color: isMe == true ? Colors.lightBlueAccent : Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 20.0),
-                child: Text(
-                  '$text',
-                  style: isMe == true
-                      ? const TextStyle(
-                          color: Colors.white,
-                          fontSize: 15.0,
-                        )
-                      : const TextStyle(
-                          color: Colors.black54,
-                          fontSize: 15.0,
-                        ),
-                ),
-              ),
-            ),
+                  ),
           ],
         ));
   }
