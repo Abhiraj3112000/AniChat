@@ -1,11 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-final _fireStore = FirebaseFirestore.instance;
-late User loggedInUser;
+import '../firebase.dart';
 
 class ChatScreen extends StatefulWidget {
   static const String id = 'chat_screen';
@@ -15,40 +14,10 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
-  final _auth = FirebaseAuth.instance;
-  late String message;
-
-  void getCurrentUser() {
-    final user = _auth.currentUser;
-    try {
-      if (user != null) {
-        loggedInUser = user;
-        print(loggedInUser.email);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void getMessages() async {
-    // getting data using strings (does not notify updates automatically unlike streams)
-    // final messages = await _fireStore.collection('messages').get();
-    // for (var message in messages.docs) {
-    //   print(message.data());
-    // }
-
-    // getting data using stream (updates whenever data changes automatically) -
-    await for (var snapshot in _fireStore.collection('messages').snapshots()) {
-      for (var message in snapshot.docs) {
-        print(message.data());
-      }
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-
     getCurrentUser();
   }
 
@@ -80,122 +49,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      messageTextController.clear();
-                      _fireStore
-                          .collection('messages')
-                          .doc(
-                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
-                          .set({
-                        'sender': loggedInUser.email,
-                        'text': angry,
-                      });
-
-                      // print("EMOJI");
-                    },
-                    child: const Text(
-                      '😡',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      messageTextController.clear();
-                      _fireStore
-                          .collection('messages')
-                          .doc(
-                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
-                          .set({
-                        'sender': loggedInUser.email,
-                        'text': sad,
-                      });
-
-                      // print("EMOJI");
-                    },
-                    child: const Text(
-                      '😭',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      messageTextController.clear();
-                      _fireStore
-                          .collection('messages')
-                          .doc(
-                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
-                          .set({
-                        'sender': loggedInUser.email,
-                        'text': happy,
-                      });
-
-                      // print("EMOJI");
-                    },
-                    child: const Text(
-                      '😊',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      messageTextController.clear();
-                      _fireStore
-                          .collection('messages')
-                          .doc(
-                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
-                          .set({
-                        'sender': loggedInUser.email,
-                        'text': stunned,
-                      });
-
-                      // print("EMOJI");
-                    },
-                    child: const Text(
-                      '😮',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      messageTextController.clear();
-                      _fireStore
-                          .collection('messages')
-                          .doc(
-                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
-                          .set({
-                        'sender': loggedInUser.email,
-                        'text': confused,
-                      });
-
-                      // print("EMOJI");
-                    },
-                    child: const Text(
-                      '😵',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      messageTextController.clear();
-                      _fireStore
-                          .collection('messages')
-                          .doc(
-                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
-                          .set({
-                        'sender': loggedInUser.email,
-                        'text': nervous,
-                      });
-
-                      // print("EMOJI");
-                    },
-                    child: const Text(
-                      '😖',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ],
+                children: <Widget>[...reaction_tray],
               ),
             ),
             Container(
@@ -217,10 +71,10 @@ class _ChatScreenState extends State<ChatScreen> {
                   TextButton(
                     onPressed: () {
                       messageTextController.clear();
-                      _fireStore
+                      fireStore
                           .collection('messages')
                           .doc(
-                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
+                              "${DateTime.now().millisecondsSinceEpoch}${auth.currentUser!.uid}")
                           .set({
                         'sender': loggedInUser.email,
                         'text': message,
@@ -241,13 +95,46 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
+class ReactionButton extends StatelessWidget {
+  final String reaction;
+  final String text;
+
+  ReactionButton({
+    Key? key,
+    required this.reaction,
+    required this.text,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        fireStore
+            .collection('messages')
+            .doc(
+                "${DateTime.now().millisecondsSinceEpoch}${auth.currentUser!.uid}")
+            .set({
+          'sender': loggedInUser.email,
+          'text': text,
+        });
+
+        // print("EMOJI");
+      },
+      child: Text(
+        reaction,
+        style: TextStyle(fontSize: 20),
+      ),
+    );
+  }
+}
+
 class MessagesStream extends StatelessWidget {
   const MessagesStream({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: _fireStore.collection('messages').snapshots(),
+        stream: fireStore.collection('messages').snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(

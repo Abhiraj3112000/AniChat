@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'components/reaction_button.dart';
 
 const kSendButtonTextStyle = TextStyle(
   color: Colors.lightBlueAccent,
@@ -42,11 +43,20 @@ const String happy = '__jyh23__happy_27hyg___emo__328jhg__';
 const String nervous = '__jyh23__nervous_27hyg___emo__328jhg__';
 const String stunned = '__jyh23__stunned_27hyg___emo__328jhg__';
 
+List<Widget> reaction_tray = [
+  ReactionButton(text: nervous, reaction: '😖'),
+  ReactionButton(text: angry, reaction: '😡'),
+  ReactionButton(text: stunned, reaction: '😮'),
+  ReactionButton(text: happy, reaction: '😊'),
+  ReactionButton(text: sad, reaction: '😭'),
+  ReactionButton(text: confused, reaction: '😵'),
+];
+
 var reactions = {
-  '__jyh23__angry_27hyg___emo__328jhg__': 'anime-angry.gif',
-  '__jyh23__sad_27hyg___emo__328jhg__': 'anime-sad.gif',
-  '__jyh23__confused_27hyg___emo__328jhg__': 'anime-confused.gif',
-  '__jyh23__happy_27hyg___emo__328jhg__': 'anime-happy.gif',
-  '__jyh23__nervous_27hyg___emo__328jhg__': 'anime-nervous.gif',
-  '__jyh23__stunned_27hyg___emo__328jhg__': 'anime-stunned.gif',
+  angry: 'anime-angry.gif',
+  sad: 'anime-sad.gif',
+  confused: 'anime-confused.gif',
+  happy: 'anime-happy.gif',
+  nervous: 'anime-nervous.gif',
+  stunned: 'anime-stunned.gif',
 };
