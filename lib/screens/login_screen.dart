@@ -1,7 +1,7 @@
 import 'package:flash_chat/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/components/rounded_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '../firebase.dart';
 import 'chat_screen.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
@@ -13,7 +13,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _showSpinner = false;
-  final _auth = FirebaseAuth.instance;
   late String email;
   late String password;
   @override
@@ -33,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   tag: 'logo',
                   child: Container(
                     height: 200.0,
-                    child: Image.asset('images/logo.png'),
+                    child: Image.asset('images/logo.gif'),
                   ),
                 ),
               ),
@@ -79,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     _showSpinner = true;
                   });
                   try {
-                    final newUser = await _auth.signInWithEmailAndPassword(
+                    final newUser = await auth.signInWithEmailAndPassword(
                         email: email, password: password);
                     if (newUser != null) {
                       Navigator.pushNamed(context, ChatScreen.id);

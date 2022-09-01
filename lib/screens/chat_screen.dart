@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../firebase.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -35,7 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 getMessages();
               }),
         ],
-        title: Text('⚡️Chat'),
+        title: Text('👀 Chat'),
         backgroundColor: Colors.lightBlueAccent,
       ),
       body: SafeArea(
@@ -192,14 +189,9 @@ class MessageBubble extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            text == angry ||
-                    text == sad ||
-                    text == happy ||
-                    text == nervous ||
-                    text == confused ||
-                    text == stunned
+            reactions.any((item) => text!.contains(item))
                 ? Image.asset(
-                    'images/${reactions[text]}',
+                    'images/${reaction_map[text]}',
                     width: 150.0,
                     height: 150.0,
                     fit: BoxFit.cover,

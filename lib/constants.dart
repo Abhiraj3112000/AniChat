@@ -43,16 +43,18 @@ const String happy = '__jyh23__happy_27hyg___emo__328jhg__';
 const String nervous = '__jyh23__nervous_27hyg___emo__328jhg__';
 const String stunned = '__jyh23__stunned_27hyg___emo__328jhg__';
 
+const List<String> reactions = [angry, sad, confused, happy, nervous, stunned];
+
 List<Widget> reaction_tray = [
   ReactionButton(text: nervous, reaction: '😖'),
   ReactionButton(text: angry, reaction: '😡'),
   ReactionButton(text: stunned, reaction: '😮'),
   ReactionButton(text: happy, reaction: '😊'),
   ReactionButton(text: sad, reaction: '😭'),
-  ReactionButton(text: confused, reaction: '😵'),
+  ReactionButton(text: confused, reaction: '🤔'),
 ];
 
-var reactions = {
+var reaction_map = {
   angry: 'anime-angry.gif',
   sad: 'anime-sad.gif',
   confused: 'anime-confused.gif',

@@ -59,14 +59,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 Hero(
                   tag: 'logo',
                   child: Container(
-                    child: Image.asset('images/logo.png'),
+                    child: Image.asset('images/logo.gif'),
                     height: 60.0,
                   ),
                 ),
                 AnimatedTextKit(
                   animatedTexts: [
                     TypewriterAnimatedText(
-                      'Flash Chat',
+                      '  AniChat',
                       textStyle: const TextStyle(
                         fontSize: 45.0,
                         fontWeight: FontWeight.w900,
