@@ -1,17 +1,9 @@
-# flash_chat
+# AniChat
 
-change
-A new Flutter project.
+A flutter app where you can chat with text and anime gif stickers.
 
-## Getting Started
+## TODOS -
+  - add toasts for different failures in login and registration screen.
+  - add a toast to notify internet connectivity issues.
+  - add time below message bubble and give message bubble a minimum length.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
