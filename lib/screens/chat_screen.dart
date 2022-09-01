@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final _fireStore = FirebaseFirestore.instance;
 late User loggedInUser;
-const String emoji = '__jyh23__flash_27hyg___emo__328jhg__';
 
 class ChatScreen extends StatefulWidget {
   static const String id = 'chat_screen';
@@ -79,17 +78,26 @@ class _ChatScreenState extends State<ChatScreen> {
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: messageTextController,
-                      onChanged: (value) {
-                        setState(() {
-                          message = value;
-                        });
-                      },
-                      decoration: kMessageTextFieldDecoration,
+                  TextButton(
+                    onPressed: () {
+                      messageTextController.clear();
+                      _fireStore
+                          .collection('messages')
+                          .doc(
+                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
+                          .set({
+                        'sender': loggedInUser.email,
+                        'text': angry,
+                      });
+
+                      // print("EMOJI");
+                    },
+                    child: const Text(
+                      '😡',
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                   TextButton(
@@ -101,16 +109,109 @@ class _ChatScreenState extends State<ChatScreen> {
                               "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
                           .set({
                         'sender': loggedInUser.email,
-                        'text': emoji,
+                        'text': sad,
                       });
 
                       // print("EMOJI");
                     },
-                    child: Image.asset(
-                      'images/logo.png',
-                      width: 24.0,
-                      height: 24.0,
-                      fit: BoxFit.cover,
+                    child: const Text(
+                      '😭',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      messageTextController.clear();
+                      _fireStore
+                          .collection('messages')
+                          .doc(
+                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
+                          .set({
+                        'sender': loggedInUser.email,
+                        'text': happy,
+                      });
+
+                      // print("EMOJI");
+                    },
+                    child: const Text(
+                      '😊',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      messageTextController.clear();
+                      _fireStore
+                          .collection('messages')
+                          .doc(
+                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
+                          .set({
+                        'sender': loggedInUser.email,
+                        'text': stunned,
+                      });
+
+                      // print("EMOJI");
+                    },
+                    child: const Text(
+                      '😮',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      messageTextController.clear();
+                      _fireStore
+                          .collection('messages')
+                          .doc(
+                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
+                          .set({
+                        'sender': loggedInUser.email,
+                        'text': confused,
+                      });
+
+                      // print("EMOJI");
+                    },
+                    child: const Text(
+                      '😵',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      messageTextController.clear();
+                      _fireStore
+                          .collection('messages')
+                          .doc(
+                              "${DateTime.now().millisecondsSinceEpoch}${_auth.currentUser!.uid}")
+                          .set({
+                        'sender': loggedInUser.email,
+                        'text': nervous,
+                      });
+
+                      // print("EMOJI");
+                    },
+                    child: const Text(
+                      '😖',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              decoration: kMessageContainerDecoration,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      controller: messageTextController,
+                      onChanged: (value) {
+                        setState(() {
+                          message = value;
+                        });
+                      },
+                      decoration: kMessageTextFieldDecoration,
                     ),
                   ),
                   TextButton(
@@ -197,16 +298,23 @@ class MessageBubble extends StatelessWidget {
           crossAxisAlignment:
               isMe == true ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
-            Text('$sender',
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.white,
-                )),
-            text == emoji
+            Text(
+              '$sender',
+              style: const TextStyle(
+                fontSize: 12.0,
+                color: Colors.white,
+              ),
+            ),
+            text == angry ||
+                    text == sad ||
+                    text == happy ||
+                    text == nervous ||
+                    text == confused ||
+                    text == stunned
                 ? Image.asset(
-                    'images/logo.png',
-                    width: 100.0,
-                    height: 200.0,
+                    'images/${reactions[text]}',
+                    width: 150.0,
+                    height: 150.0,
                     fit: BoxFit.cover,
                   )
                 : Material(

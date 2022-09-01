@@ -34,3 +34,19 @@ const kTextFieldDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
 );
+
+const String angry = '__jyh23__angry_27hyg___emo__328jhg__';
+const String sad = '__jyh23__sad_27hyg___emo__328jhg__';
+const String confused = '__jyh23__confused_27hyg___emo__328jhg__';
+const String happy = '__jyh23__happy_27hyg___emo__328jhg__';
+const String nervous = '__jyh23__nervous_27hyg___emo__328jhg__';
+const String stunned = '__jyh23__stunned_27hyg___emo__328jhg__';
+
+var reactions = {
+  '__jyh23__angry_27hyg___emo__328jhg__': 'anime-angry.gif',
+  '__jyh23__sad_27hyg___emo__328jhg__': 'anime-sad.gif',
+  '__jyh23__confused_27hyg___emo__328jhg__': 'anime-confused.gif',
+  '__jyh23__happy_27hyg___emo__328jhg__': 'anime-happy.gif',
+  '__jyh23__nervous_27hyg___emo__328jhg__': 'anime-nervous.gif',
+  '__jyh23__stunned_27hyg___emo__328jhg__': 'anime-stunned.gif',
+};
